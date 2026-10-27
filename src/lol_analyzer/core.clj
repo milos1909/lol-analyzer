@@ -1,4 +1,8 @@
-(ns lol-analyzer.core)
+(ns lol-analyzer.core
+  (:require [lol-analyzer.riot-api :as riot-api]))
 
 (defn -main []
-  (println "League of Legends Match Analyzer"))
+  (let [api-key (System/getenv "RIOT_API_KEY")]
+    (if api-key
+      (riot-api/get-summoner)
+      (println "Invalid RIOT_API_KEY"))))
