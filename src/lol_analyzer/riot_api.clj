@@ -5,6 +5,7 @@
 
 (defn get-json [baseurl endpoint]
   (-> (http/get-rsp baseurl endpoint)
+      (.body)
       (cheshire/parse-string true)))
 
 (defn get-summoner []

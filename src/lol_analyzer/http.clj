@@ -23,4 +23,4 @@
         response (.send client
                         request
                         (HttpResponse$BodyHandlers/ofString))]
-    (.body response)))
+    response))
