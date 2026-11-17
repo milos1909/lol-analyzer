@@ -4,12 +4,16 @@
             [lol-analyzer.match :as match]
             [lol-analyzer.analysis :as analysis]))
 
-(defn -main []
-  (let [match-ids (riot-api/get-matches)
-        player-stats (mapv (fn [match-id]
-                             (match/extract-player-stats
-                               (riot-api/get-match-by-id match-id)
-                               config/puuid))
-                           match-ids)]
+(defn win-rate []
+  (let [matches (riot-api/get-matches config/puuid)
+        player-stats (mapv #(match/extract-player-stats
+                              % config/puuid)
+                           matches)]
     (println "Azir win rate:"
-             (analysis/calculate-win-rate player-stats))))
+             (analysis/calculate-champion-win-rate player-stats config/azir-id))))
+
+(defn matchup-analysis []
+  (analysis/analyze-matchups
+    (riot-api/get-matches config/puuid)
+    config/puuid
+    config/azir-id))

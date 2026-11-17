@@ -11,8 +11,11 @@
 (defn get-summoner []
   (get-json http/platform-base-url (str "summoner/v4/summoners/by-puuid/" config/puuid)))
 
-(defn get-matches []
-  (get-json http/match-base-url (str "by-puuid/" config/puuid "/ids?start=0&count=20")))
+(defn get-match-ids [puuid]
+  (get-json http/match-base-url (str "by-puuid/" puuid "/ids?start=0&count=20")))
 
 (defn get-match-by-id [id]
   (get-json http/match-base-url id))
+
+(defn get-matches [puuid]
+  (mapv get-match-by-id (get-match-ids puuid)))
